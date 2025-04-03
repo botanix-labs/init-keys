@@ -1,3 +1,4 @@
+use rand::rngs::OsRng;
 use secp256k1::SECP256K1;
 use std::{io::Write, path::Path};
 
@@ -5,7 +6,8 @@ fn main() {
     let node_path = Path::new("./output"); // Define the output_path variable
     std::fs::create_dir_all(&node_path);
     // Create the secret key
-    let sk = secp256k1::SecretKey::new(&mut rand::thread_rng());
+    let mut rng = OsRng;
+    let sk = secp256k1::SecretKey::new(&mut rng);
     let pk = sk.public_key(SECP256K1);
 
     // Write the public key
@@ -32,7 +34,7 @@ fn main() {
 
     // Lastly we need to create the jwt secret key
     let jwt_secret_path = Path::new(&node_path).join("bjwt.hex");
-    let jwt_sk = secp256k1::SecretKey::new(&mut rand::thread_rng());
+    let jwt_sk = secp256k1::SecretKey::new(&mut rng);
     let mut file = std::fs::OpenOptions::new()
         .write(true)
         .create(true)
