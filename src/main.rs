@@ -4,7 +4,7 @@ use std::{io::Write, path::Path};
 
 fn main() {
     let node_path = Path::new("./output"); // Define the output_path variable
-    std::fs::create_dir_all(&node_path);
+    std::fs::create_dir_all(&node_path).expect("create output directory");
     // Create the secret key
     let mut rng = OsRng;
     let sk = secp256k1::SecretKey::new(&mut rng);
